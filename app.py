@@ -7,9 +7,11 @@
 
 # =[Modules dan Packages]========================
 
+from distutils.command.upload import upload
+from importlib.resources import path
 import json
 # from django.shortcuts import render
-from flask import Flask,render_template,request,jsonify
+from flask import Flask,render_template,request,jsonify,session
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
@@ -36,14 +38,13 @@ class UploadFileForm(FlaskForm):
 
 # [Routing untuk Halaman Utama atau Home]	
 
-@app.route('/', methods=['GET',"POST"])
-@app.route('/home', methods=['GET',"POST"])
+@app.route('/')
 def beranda():
-	form = UploadFileForm()
+	# form = UploadFileForm()
 	# if form.validate_on_submit():
 	# 	file = form.file.data #mengambil file
 	# 	file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'],secure_filename(file.filename))) #menyimpan file
-	return render_template('index.html', form=form)
+	return render_template('index.html')
 
 # [Routing untuk API]	
 @app.route("/api/deteksi",methods=['POST'])
@@ -85,20 +86,39 @@ def apiDeteksi():
 			"gambar_prediksi" : gambar_prediksi
 		})
 
-@app.route("/deteksicsv", methods=['POST'])
+# @app.route("/deteksicsv", methods=['POST'])
+# def deteksicsv():
+# 	form = UploadFileForm()
+# 	if form.validate_on_submit():
+# 		file = form.file.data #mengambil file
+# 		file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'],secure_filename(file.filename))) #menyimpan file
+
+# 		file_csv = pd.read_csv(file)
+# 		prediksi_csv = model.predict(file_csv.iloc[:, :-1])
+
+# 		file_csv['Species'] = prediksi_csv
+# 		file_csv.to_csv('hasil.csv', index=False)
+
+# 		return render_template('index.html', form=form)
+
+@app.route("/deteksicsv", methods=["POST", "GET"])
 def deteksicsv():
-	form = UploadFileForm()
-	if form.validate_on_submit():
-		file = form.file.data #mengambil file
-		file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'],secure_filename(file.filename))) #menyimpan file
+	if request.method == 'POST':
+		uploaded_df = request.files['uploaded-file']
+		data_filename = secure_filename(uploaded_df.filename)
+		uploaded_df.save(os.path.join(app.config['UPLOAD_FOLDER'], data_filename))
+		session['uploaded_data_file_path'] = os.path.join(app.config['UPLOAD_FOLDER'], data_filename)
 
-		file_csv = pd.read_csv(file)
-		prediksi_csv = model.predict(file_csv.iloc[:, :-1])
+		data_file_path = session.get('uploaded_data_file_path', None)
 
-		file_csv['Species'] = prediksi_csv
-		file_csv.to_csv('hasil.csv', index=False)
+		uploaded_df = pd.read_csv(data_file_path)
+		prediksi_csv = model.predict(uploaded_df.iloc[:, :-1])
+		uploaded_df['Species'] = prediksi_csv
 
-		return render_template('index.html', form=form)
+		uploaded_df.to_csv(os.path.join(app.config['UPLOAD_FOLDER'],'hasil.csv'))
+
+		# uploaded_df_html = uploaded_df.to_html()
+		return render_template("download.html", tables=[uploaded_df.to_html()], titles=[''])
 
 # =[Main]========================================
 

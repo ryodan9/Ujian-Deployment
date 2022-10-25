@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Judul Halaman -->
+	<title>Orbit Future Academy</title>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Icon -->
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	
+	<!-- CSS -->
+	<link rel="stylesheet" href={{ url_for('static', filename='/css/bootstrap.min.css') }} type="text/css">
+	<link rel="stylesheet" href={{ url_for('static', filename='/css/client_side.css') }}  type="text/css">
+	
+	<!-- JavaScript -->
+	<script src={{ url_for('static', filename='/js/jquery_3.6.0.min.js') }} ></script>
+	<script src={{ url_for('static', filename='/js/bootstrap_3.4.1.min.js') }} ></script>
+</head>
+
+<body id="halamanku" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+	<!-- Navigation Bar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			
+			<!-- Logo -->
+			<div class="navbar-header">
+				<img src={{ url_for('static', filename='/images/orbit_logo.jpg') }} alt="Orbit Logo" 
+				width="50" height="50" align="left">
+				<a class="navbar-brand" href="#halamanku">&#160; Orbit Future Academy</a>
+			</div>
+            </div>
+    </nav>
+
+    <!-- Download CSV -->
+    <div class="container">
+        <h2>Hasil Prediksi</h2>
+        <h2>Hasil Prediksi</h2>
+    <table>
+        <h1>
+        <!--Displaying the converted table-->
+             {% for table in tables %}
+            <h2>{{titles[loop.index]}}</h2>                            
+            {{ table|safe }}
+            {% endfor %}     
+        </h1> 
+    </table>
+    <a href="{{ url_for('static', filename='/files/hasil.csv') }}" class="btn btn-default btn-lg" style="margin-top: 10px;">Download</a>
+    </div>
+
+    <footer class="container-fluid text-center">
+		<a href="#halamanku" title="To Top">
+			<span class="glyphicon glyphicon-chevron-up"></span>
+		</a>
+		<p>Orbit Future Academy <br> <a href="https://orbitfutureacademy.id/">orbitfutureacademy.id</a></p>
+	</footer>
+
+	<!-- JavaScript untuk Animasi Scroll dan Prediksi Model -->
+	<script  src={{ url_for('static', filename='/js/client_side.js') }}></script>
+</body>
+
+
+</html>

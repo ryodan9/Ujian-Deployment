@@ -134,18 +134,14 @@
 	</div>
 
 	<!-- Prediksi CSV -->
-	<div class="prediksicsv" style="margin-left: 50px;">
-	<input type="file" id="fileUpload" />
-	<input type="button" id="upload" value="Upload" onclick="Upload()" />
-	<hr />
-	<div id="dvCSV"></div>
 
+	<h2 style="margin-left: 50px;">Prediksi CSV</h2>
+	<hr>
+	<div class="prediksicsv" style="margin-left: 50px;">
 
 	<form action="{{url_for('deteksicsv')}}" method="POST" enctype="multipart/form-data">
-	{{form.hidden_tag()}}
-	{{form.file()}}
-	<!-- {{form.submit()}} -->
-	<button type="submit" class="btn btn-default btn-lg">Prediksi</button>
+	<input type="file" id="myFile" name="uploaded-file" accept=".csv">
+	<button type="submit" class="btn btn-default btn-lg" style="margin-top: 10px;">Prediksi</button>
 	</form>
 
 	
@@ -155,36 +151,36 @@
 	<div id="anggotaKelompok" class="container-fluid text-center">
 		<br>
 		<h2>ANGGOTA KELOMPOK</h2>
-		<h4>Tim Deployment dan Tim DS</h4>
+		<h4>Alphazero-4</h4>
 		<br>
 		<div class="row slideanim">
 			<div class="col-sm-4">
 				<span class="glyphicon glyphicon-user logo-small"></span>
-				<h4>BUDI</h4>
-				<p>Universitas Sumatera</p>
+				<h4>Nydia Erlinda</h4>
+				<p>Universitas Bakrie</p>
 			</div>
 			<div class="col-sm-4">
 				<span class="glyphicon glyphicon-user logo-small"></span>
-				<h4>AYU</h4>
-				<p>Universitas Jawa dan Bali</p>
+				<h4>Fathurahman</h4>
+				<p>Universitas Gunadarma</p>
 			</div>
 			<div class="col-sm-4">
 				<span class="glyphicon glyphicon-user logo-small"></span>
-				<h4>TONO</h4>
-				<p>Universitas Kalimantan</p>
+				<h4>Abdullah Muadz Muflih</h4>
+				<p>Universitas Negeri Jakarta</p>
 			</div>
 		</div>
 	    <br>
 	    <div class="row slideanim">
 			<div class="col-sm-6">
 				<span class="glyphicon glyphicon-user logo-small"></span>
-				<h4>PUTRA</h4>
-				<p>Universitas Sulawesi</p>
+				<h4>Vivi Fitriyani</h4>
+				<p>Universitas Negeri Jakarta</p>
 			</div>
 			<div class="col-sm-6">
 				<span class="glyphicon glyphicon-user logo-small"></span>
-				<h4>PUTRI</h4>
-				<p>Universitas Kepulauan Nusa, Maluku dan Papua</p>
+				<h4>Redja Djata Saputra</h4>
+				<p>Universitas Esa Unggul</p>
 			</div>
 	    </div>
 	</div>
@@ -199,39 +195,6 @@
 
 	<!-- JavaScript untuk Animasi Scroll dan Prediksi Model -->
 	<script  src={{ url_for('static', filename='/js/client_side.js') }}></script>
-	<script type="text/javascript">
-		function Upload() {
-			var fileUpload = document.getElementById("fileUpload");
-			var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-			if (regex.test(fileUpload.value.toLowerCase())) {
-				if (typeof (FileReader) != "undefined") {
-					var reader = new FileReader();
-					reader.onload = function (e) {
-						var table = document.createElement("table");
-						var rows = e.target.result.split("\n");
-						for (var i = 0; i < rows.length; i++) {
-							var cells = rows[i].split(",");
-							if (cells.length > 1) {
-								var row = table.insertRow(-1);
-								for (var j = 0; j < cells.length; j++) {
-									var cell = row.insertCell(-1);
-									cell.innerHTML = cells[j];
-								}
-							}
-						}
-						var dvCSV = document.getElementById("dvCSV");
-						dvCSV.innerHTML = "";
-						dvCSV.appendChild(table);
-					}
-					reader.readAsText(fileUpload.files[0]);
-				} else {
-					
-				}
-			} else {
-				alert("Please upload a valid CSV file.");
-			}
-		}
-	</script>
 </body>
 
 

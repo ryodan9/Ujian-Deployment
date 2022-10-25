@@ -38,6 +38,7 @@
     <div class="container">
         <h2>Hasil Prediksi</h2>
         <h2>Hasil Prediksi</h2>
+        <a href="{{ url_for('static', filename='/files/hasil.csv') }}" class="btn btn-default btn-lg" style="margin-top: 10px;">Download</a>
     <table>
         <h1>
         <!--Displaying the converted table-->
@@ -47,7 +48,6 @@
             {% endfor %}     
         </h1> 
     </table>
-    <a href="{{ url_for('static', filename='/files/hasil.csv') }}" class="btn btn-default btn-lg" style="margin-top: 10px;">Download</a>
     </div>
 
     <footer class="container-fluid text-center">

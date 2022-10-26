@@ -12,10 +12,10 @@ from importlib.resources import path
 import json
 # from django.shortcuts import render
 from flask import Flask,render_template,request,jsonify,session
-from flask_wtf import FlaskForm
-from wtforms import FileField, SubmitField
+#from flask_wtf import FlaskForm
+#from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
-from wtforms.validators import InputRequired
+#from wtforms.validators import InputRequired
 import os
 import pandas as pd
 import numpy as np
@@ -30,9 +30,9 @@ app.config['UPLOAD_FOLDER'] = 'static/files'
 
 model = None
 
-class UploadFileForm(FlaskForm):
-    file = FileField("File", validators=[InputRequired()])
-    submit = SubmitField("Upload File")
+#class UploadFileForm(FlaskForm):
+    #file = FileField("File", validators=[InputRequired()])
+    #submit = SubmitField("Upload File")
 
 # =[Routing]=====================================
 

@@ -103,22 +103,27 @@ def apiDeteksi():
 
 @app.route("/deteksicsv", methods=["POST", "GET"])
 def deteksicsv():
-	if request.method == 'POST':
-		uploaded_df = request.files['uploaded-file']
-		data_filename = secure_filename(uploaded_df.filename)
-		uploaded_df.save(os.path.join(app.config['UPLOAD_FOLDER'], data_filename))
-		session['uploaded_data_file_path'] = os.path.join(app.config['UPLOAD_FOLDER'], data_filename)
+	error = None
+	try:
+		if request.method == 'POST':
+			uploaded_df = request.files['uploaded-file']
+			data_filename = secure_filename(uploaded_df.filename)
+			uploaded_df.save(os.path.join(app.config['UPLOAD_FOLDER'], data_filename))
+			session['uploaded_data_file_path'] = os.path.join(app.config['UPLOAD_FOLDER'], data_filename)
 
-		data_file_path = session.get('uploaded_data_file_path', None)
+			data_file_path = session.get('uploaded_data_file_path', None)
 
-		uploaded_df = pd.read_csv(data_file_path)
-		prediksi_csv = model.predict(uploaded_df.iloc[:, :-1])
-		uploaded_df['Species'] = prediksi_csv
+			uploaded_df = pd.read_csv(data_file_path)
+			prediksi_csv = model.predict(uploaded_df.iloc[:, :-1])
+			uploaded_df['Species'] = prediksi_csv
 
-		uploaded_df.to_csv(os.path.join(app.config['UPLOAD_FOLDER'],'hasil.csv'))
+			uploaded_df.to_csv(os.path.join(app.config['UPLOAD_FOLDER'],'hasil.csv'))
 
-		# uploaded_df_html = uploaded_df.to_html()
-		return render_template("download.html", tables=[uploaded_df.to_html()], titles=[''])
+			# uploaded_df_html = uploaded_df.to_html()
+			return render_template("download.html", tables=[uploaded_df.to_html()], titles=[''])
+	except Exception as e:
+		error = "File yang anda input salah."
+		return render_template("index.html", error=error)
 
 # =[Main]========================================
 
